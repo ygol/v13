@@ -1,0 +1,380 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="inherit_view_task_form">
+            <field name="name">project.task.inherit.form</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="groups_id" eval="[(4, ref('base.group_user'))]"/>
+            <field name="arch" type="xml">
+                    <xpath expr="//field[@name='tag_ids']" position="after">
+                        <button name="estimation" string="Estimation" type="object" class="oe_highlight"/>
+                    </xpath>
+                    <xpath expr="//field[@name='name']" position="attributes">
+                        <attribute name="context">{
+                                                    'default_project_id': project_id,
+                                                    'default_assigned_to': user_id}</attribute>
+                    </xpath>
+            </field>
+        </record>
+
+        <!-- explicit list view definition -->
+        <record model="ir.ui.view" id="estimator.list">
+            <field name="name">task_estimation list</field>
+            <field name="model">estimator.task_estimation</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name_task_seq"/>
+                    <field name="author"/>
+                    <field name="name"/>
+                    <field name="total_task_time" widget="float_time" sum="Total"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- explicit form view definition -->
+        <record id="task_estimation_form" model="ir.ui.view">
+            <field name="name">task.estimation.form</field>
+            <field name="model">estimator.task_estimation</field>
+            <field name="arch" type="xml">
+                <!-- Required -->
+                <form string="Task Estimation">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name='tasks_count_author' type="object" class="oe_stat_button" icon="fa-calendar">
+                                <field name="tasks_count" string="Author Tasks" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <div>
+                            <div class="oe_title">
+                                <h1>
+                                    <field name="name_task_seq" readonly="1"/>
+                                </h1>
+                            </div>
+                            <group col="2">
+                                <group>
+                                    <field name="name" required="1"/>
+                                    <field name="author" required="1"/>
+                                </group>
+                                <group>
+    <!--                                <field name="basic_index"/>-->
+                                    <field name="comprehension_index"/>
+                                    <field name="technical_risks"/>
+                                </group>
+                            </group>
+                            <group col='3'>
+                                <field name="hours_perfect" widget="float_time"/>
+                                <field name="hours_real_time" widget="float_time"/>
+                                <field name="hours_low_performance" widget="float_time"/>
+                                <field name="units_id" invisible="1"/>
+                            </group>
+
+                        </div>
+                    </sheet>
+                    <sheet>
+                        <notebook>
+                            <page string="List of work units">
+                                <field name="unit_works_lines" string="Task Lines">
+                                    <tree>
+                                        <field name="workunit_id"/>
+                                        <field name="quantity" string="Quantity"/>
+                                        <field name="minutes_to_do" widget="float_time" string="Minutes to do"/>
+                                        <field name="total_time" widget="float_time" string="Total time"/>
+                                    </tree>
+                                </field>
+<!--                                <field name="total_task_time"/>-->
+                            </page>
+                            <page string="Description">
+                                <field name="notes"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="task_estimation_project_form" model="ir.ui.view">
+            <field name="name">task.estimation.form</field>
+            <field name="model">estimator.task_estimation</field>
+            <field name="arch" type="xml">
+                <!-- Required -->
+                <form string="Task Estimation">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name='tasks_count_author' type="object" class="oe_stat_button" icon="fa-calendar">
+                                <field name="tasks_count" string="Author Tasks" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <div>
+                            <div class="oe_title">
+                                <h1>
+                                    <field name="name_task_seq" readonly="1"/>
+                                </h1>
+                            </div>
+                            <group col="2">
+                                <group>
+                                    <field name="project_id"/>
+                                    <field name="name" required="1" readonly="1"/>
+                                    <field name="author" required="1" readonly="1"/>
+                                </group>
+                                <group>
+    <!--                                <field name="basic_index"/>-->
+                                    <field name="comprehension_index"/>
+                                    <field name="technical_risks"/>
+                                </group>
+                            </group>
+                            <group col='3'>
+                                <field name="hours_perfect" widget="float_time"/>
+                                <field name="hours_real_time" widget="float_time"/>
+                                <field name="hours_low_performance" widget="float_time"/>
+                                <field name="units_id" invisible="1"/>
+                            </group>
+
+                        </div>
+                    </sheet>
+                    <sheet>
+                        <notebook>
+                            <page string="List of work units">
+                                <field name="unit_works_lines" string="Task Lines">
+                                    <tree>
+                                        <field name="workunit_id"/>
+                                        <field name="quantity" string="Quantity"/>
+                                        <field name="minutes_to_do" widget="float_time" string="Minutes to do"/>
+                                        <field name="total_time" widget="float_time" string="Total time"/>
+                                    </tree>
+                                </field>
+<!--                                <field name="total_task_time"/>-->
+                            </page>
+                            <page string="Description">
+                                <field name="notes"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="task_estimation_lines_form" model="ir.ui.view">
+            <field name="name">task.estimation.lines.form</field>
+            <field name="model">task_estimation.lines</field>
+            <field name="arch" type="xml">
+                <!-- Required -->
+                <form string="Task One">
+                    <sheet>
+                        <div>
+                            <group>
+                                <field name="workunit_id" string="Work Unit ID"/>
+                            </group>
+                            <group>
+                                <field name="quantity" string="Quantity"/>
+                            </group>
+                            <group>
+                                <field name="minutes_to_do" string="Minutes for one work unit:" widget="float_time"/>
+                            </group>
+                            <field name="task_id" invisible="1"/>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="estimator.command_list">
+            <field name="name">Estimator command list</field>
+            <field name="model">estimator.command</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="role_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="estimator.command_role_list">
+            <field name="name">Estimator command role list</field>
+            <field name="model">estimator.command_roles</field>
+            <field name="arch" type="xml">
+                <tree editable="top">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="estimator.project_form" model="ir.ui.view">
+            <field name="name">estimator project form</field>
+            <field name="model">estimator.project</field>
+            <field name="arch" type="xml">
+                <form string="Project">
+                    <header>
+                        <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+                    </header>
+                    <sheet>
+                        <div>
+                            <group col="1">
+                                <group>
+                                    <field name="name"/>
+                                    <field name="company" string="Company name" domain="[('is_company', '=', True)]"/>
+                                    <field name="create_date"/>
+                                </group>
+                                <group col="2">
+                                    <group>
+                                        <field name="total_perfect_hours" string="Total Perfect Hours" widget="float_time" groups="estimator.group_manager_estimator"/>
+                                        <field name="total_real_time" string="Total Real Time" widget="float_time" groups="estimator.group_manager_estimator"/>
+                                        <field name="total_low_performance" string="Total Low Performance" widget="float_time" groups="estimator.group_manager_estimator"/>
+                                    </group>
+                                    <group>
+                                        <field name="project_risk"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <field name="role_id" string="Total Hours by Role" groups="estimator.group_manager_estimator"/>
+                                </group>
+                            </group>
+                            <group col="1" attrs="{'invisible': [('role_id','=',False)]}" groups="estimator.group_manager_estimator">
+                                <table class="table table-sm o_main_table">
+                                    <thead>
+                                        <span style="padding-left:150px"><b>Total hours by selected Role</b></span>
+                                    </thead>
+                                    <tbody>
+                                        <table width="600px">
+                                            <tr>
+                                                <td><b>Total Perfect Hours</b></td>
+                                                <td><b>Total Real Time</b></td>
+                                                <td><b>Total Low Performance</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <field name="total_perfect_hours_by_role" nolabel="1" readonly="1" widget="float_time"/>
+                                                </td>
+                                                <td>
+                                                    <field name="total_real_time_by_role" nolabel="1" readonly="1" widget="float_time"/>
+                                                </td>
+                                                <td>
+                                                    <field name="total_low_performance_by_role" nolabel="1" readonly="1" widget="float_time"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </tbody>
+                                </table>
+                            </group>
+                            <button name="add_command" string="Add your command" type="object" class="btn-primary" groups="estimator.group_manager_estimator"/>
+                        </div>
+                    </sheet>
+                    <sheet>
+                        <notebook>
+                            <page string="List of Tasks">
+                                <field name="tasks">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="author"/>
+                                        <field name="role"/>
+                                        <field name="hours_perfect" widget="float_time" groups="estimator.group_manager_estimator"/>
+                                        <field name="hours_real_time" widget="float_time" groups="estimator.group_manager_estimator"/>
+                                        <field name="hours_low_performance" widget="float_time" groups="estimator.group_manager_estimator"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Description">
+                                <field name="note"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="estimator.project_list">
+            <field name="name">Estimator project list</field>
+            <field name="model">estimator.project</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="company"/>
+                    <field name="total_perfect_hours" widget="float_time" sum="Total" groups="estimator.group_manager_estimator"/>
+                    <field name="total_real_time" widget="float_time" sum="Total" groups="estimator.group_manager_estimator"/>
+                    <field name="total_low_performance" widget="float_time" sum="Total" groups="estimator.group_manager_estimator"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="estimator_project_view_kanban">
+            <field name="name">estimator_project.view.form</field>
+            <field name="model">estimator.project</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="state" quick_create="false" records_draggable="false">
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_hr_kanban_record">
+                                <div class="o_kanban_card_header_title">
+                                    <field name="name"/>
+                                    <table>
+                                        <tr>
+                                            <td valign="top">
+                                                <field name="company"/>
+                                            </td>
+                                            <td>
+                                                <br></br>
+                                            </td>
+                                            <td align="right" groups="estimator.group_manager_estimator">
+                                                Perfect Hours - <field name="total_perfect_hours" widget="float_time"/>
+                                                <br></br>
+                                                Real Time - <field name="total_real_time" widget="float_time"/>
+                                                <br></br>
+                                                Low Perfor. - <field name="total_low_performance" widget="float_time"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="estimator.action_window">
+            <field name="name">Task estimation</field>
+            <field name="res_model">estimator.task_estimation</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="estimator.command">
+            <field name="name">Command</field>
+            <field name="res_model">estimator.command</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="estimator.command_roles">
+            <field name="name">Command Roles</field>
+            <field name="res_model">estimator.command_roles</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="estimator.task_estimation">
+            <field name="name">Task Estimation</field>
+            <field name="res_model">estimator.task_estimation</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="task_estimation_project_form"/>
+        </record>
+
+        <record model="ir.actions.act_window" id="estimator.project">
+            <field name="name">Project</field>
+            <field name="res_model">estimator.project</field>
+            <field name="view_mode">kanban,tree,form</field>
+        </record>
+
+        <!-- Top menu item -->
+        <menuitem name="Task Estimation Project" id="estimator.menu_root" web_icon="estimator,static/description/banner.png"/>
+        <!-- menu categories -->
+        <menuitem name="Project" id="estimator.menu_1" parent="estimator.menu_root"
+                  action="estimator.project"/>
+        <menuitem name="List of Tasks" id="estimator.menu_2" parent="estimator.menu_root"
+                  action="estimator.action_window"/>
+        <menuitem name="Command" id="estimator.menu_3" parent="estimator.menu_root"
+                  action="estimator.command" groups="estimator.group_manager_estimator"/>
+        <menuitem name="Command Roles" id="estimator.menu_5" parent="estimator.menu_root"
+                  action="estimator.command_roles" groups="estimator.group_manager_estimator"/>
+        <!--        <menuitem name="Work Units" id="task_estimation.menu_2" parent="task_estimation.menu_root"-->
+        <!--                  action="work_units_action_window"/>-->
+    </data>
+</odoo>

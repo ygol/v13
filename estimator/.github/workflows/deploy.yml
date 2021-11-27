@@ -1,0 +1,18 @@
+name: Deploy to server
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ls -a via OPEN SSH Private Key
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: cd /mnt/estimator/estimator && git pull https://${{ secrets.MY_LOG }}:${{ secrets.MY_PASS }}@github.com/42LOC/estimator.git && service odoo-server restart
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD_HOST }}

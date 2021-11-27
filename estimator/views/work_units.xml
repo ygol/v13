@@ -1,0 +1,54 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="test_estimation_test_estimation_work_units_tree">
+            <field name="name">task_estimation.work_units list</field>
+            <field name="model">task_estimation.work_units</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name_seq" invisible="1"/>
+                    <field name="name"/>
+                    <field name="minutes_to_do" widget="float_time"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="task_estimation_work_units_form" model="ir.ui.view">
+            <field name="name">task_estimation.work_units.form</field>
+            <field name="model">task_estimation.work_units</field>
+            <field name="arch" type="xml">
+                <!-- Required -->
+                <form string="Task Estimation">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name_seq" readonly="1" invisible="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="minutes_to_do" widget="float_time"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="work_units_action_window">
+            <field name="name">Work Unit</field>
+            <field name="res_model">task_estimation.work_units</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Top menu item -->
+        <menuitem name="Task Estimation" id="estimator.menu_root"/>
+        <!-- menu categories -->
+        <menuitem name="Work Units" id="estimator.menu_4" parent="estimator.menu_root"
+                  action="work_units_action_window"/>
+    </data>
+</odoo>

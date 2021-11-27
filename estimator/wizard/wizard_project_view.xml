@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_wizard_project_user" model="ir.ui.view">
+            <field name="name">wizard.project.user</field>
+            <field name="model">estimator.wizard.project.user</field>
+            <field name="arch" type="xml">
+                <form string="First add this user into your command">
+                    <group>
+                        <field name="name"/>
+                        <field name="role_id"/>
+                    </group>
+                        <footer>
+                        <button string='Add to command' name="add_new_user_into_command" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

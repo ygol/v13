@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Sequences for sale.order -->
+        <record id="seq_estimator_work_units" model="ir.sequence">
+            <field name="name">Work Unit Sequence</field>
+            <field name="code">estimator.work_units.sequence</field>
+            <field name="prefix">WU </field>
+            <field name="padding">2</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_estimator_estimator" model="ir.sequence">
+            <field name="name">Task Estimation Sequence</field>
+            <field name="code">estimator.task_estimation.sequence</field>
+            <field name="prefix">TE </field>
+            <field name="padding">2</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>
